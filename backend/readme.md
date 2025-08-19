@@ -98,7 +98,67 @@ prisma/
 }
 ```
 
+
 ### Task Endpoints
+
+#### Upload Documents to a Task
+`POST /api/tasks/:id/documents`
+**Headers:**
+- `Authorization: Bearer <JWT token>`
+**Form Data:**
+- `documents`: Up to 3 PDF files (multipart/form-data)
+
+**Example using curl:**
+```sh
+curl -X POST http://localhost:4000/api/tasks/1/documents \
+   -H "Authorization: Bearer <JWT token>" \
+   -F "documents=@/path/to/file1.pdf" \
+   -F "documents=@/path/to/file2.pdf"
+```
+
+**Response:**
+```json
+{
+   "message": "Files uploaded",
+   "documents": [
+      {
+         "id": 1,
+         "fileName": "file1.pdf",
+         "filePath": "uploads/162938123-file1.pdf",
+         "taskId": 1,
+         "uploadedAt": "2025-08-19T12:34:56.000Z"
+      }
+   ]
+}
+```
+
+#### View a Document (Inline in Browser)
+`GET /api/tasks/documents/:docId/view`
+**Headers:**
+- `Authorization: Bearer <JWT token>`
+
+**Description:**
+Returns the PDF file inline in the browser for viewing.
+
+**Example using curl:**
+```sh
+curl -X GET http://localhost:4000/api/tasks/documents/1/view \
+   -H "Authorization: Bearer <JWT token>"
+```
+
+#### Download a Document
+`GET /api/tasks/documents/:docId/download`
+**Headers:**
+- `Authorization: Bearer <JWT token>`
+
+**Description:**
+Prompts the user to download the PDF file as an attachment.
+
+**Example using curl:**
+```sh
+curl -X GET http://localhost:4000/api/tasks/documents/1/download \
+   -H "Authorization: Bearer <JWT token>" --output file1.pdf
+```
 
 > All task endpoints require JWT authentication in the `Authorization` header: `Bearer <token>`
 
