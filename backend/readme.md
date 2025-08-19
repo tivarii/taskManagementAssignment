@@ -7,7 +7,9 @@ A full-stack task management system backend built with Node.js, Express, TypeScr
 - User roles (USER, ADMIN)
 - CRUD operations for users and tasks
 - Task assignment to users
+- Attach up to 3 PDF documents to tasks
 - Filtering, sorting, and pagination for tasks
+- File upload, view, and download endpoints
 - Automated tests with Jest
 - Dockerized PostgreSQL database
 
@@ -75,6 +77,7 @@ prisma/
 
 ## API Documentation
 
+
 ### User Endpoints
 
 #### Register
@@ -87,6 +90,17 @@ prisma/
    "role": "USER" // or "ADMIN"
 }
 ```
+**Response:**
+```json
+{
+   "message": "User registered",
+   "user": {
+      "id": 1,
+      "email": "user@example.com",
+      "role": "USER"
+   }
+}
+```
 
 #### Login
 `POST /api/users/login`
@@ -97,7 +111,88 @@ prisma/
    "password": "yourpassword"
 }
 ```
+**Response:**
+```json
+{
+   "token": "<JWT token>",
+   "user": {
+      "id": 1,
+      "email": "user@example.com",
+      "role": "USER"
+   }
+}
+```
 
+#### Get User by ID
+`GET /api/users/:id`
+**Headers:**
+- `Authorization: Bearer <JWT token>`
+
+**Response:**
+```json
+{
+   "id": 1,
+   "email": "user@example.com",
+   "role": "USER"
+}
+```
+
+#### Update User by ID
+`PUT /api/users/:id`
+**Headers:**
+- `Authorization: Bearer <JWT token>`
+
+**Request Body:**
+```json
+{
+   "email": "updated@example.com"
+}
+```
+
+**Response:**
+```json
+{
+   "message": "User updated",
+   "user": {
+      "id": 1,
+      "email": "updated@example.com",
+      "role": "USER"
+   }
+}
+```
+
+#### Delete User by ID
+`DELETE /api/users/:id`
+**Headers:**
+- `Authorization: Bearer <JWT token>`
+
+**Response:**
+```json
+{
+   "message": "User deleted"
+}
+```
+
+#### Get All Users
+`GET /api/users`
+**Headers:**
+- `Authorization: Bearer <JWT token>` (requires ADMIN role)
+
+**Response:**
+```json
+[
+   {
+      "id": 1,
+      "email": "user1@example.com",
+      "role": "USER"
+   },
+   {
+      "id": 2,
+      "email": "user2@example.com",
+      "role": "ADMIN"
+   }
+]
+```
 
 ### Task Endpoints
 
