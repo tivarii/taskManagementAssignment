@@ -2,7 +2,7 @@ import { createUser,findUserByEmail } from '../../services/user.service';
 import prisma from '../../utils/prisma';
 
 describe('User Service', () => {
-  const testEmail = 'jestuser@example.com';
+  const testEmail = 'jestuse@example.com';
 
   afterAll(async () => {
     await prisma.user.deleteMany({ where: { email: testEmail } });

@@ -1,5 +1,5 @@
 import request from 'supertest';
-import app from '../..'; // Make sure your Express app is exported as default
+import app from '../../app'; // Make sure your Express app is exported as default
 import prisma from '../../utils/prisma';
 
 describe('User Controller', () => {
