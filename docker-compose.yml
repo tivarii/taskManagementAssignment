@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   postgres:
     image: postgres:latest
@@ -16,21 +14,31 @@ services:
 
   backend:
     build:
-      context: ./
+      context: ./backend
       dockerfile: Dockerfile
     container_name: taskmanagement_backend
     restart: always
     environment:
       DATABASE_URL: postgres://taskuser:taskpassword@postgres:5432/taskdb
-      # Add other environment variables as needed
     ports:
       - "4000:4000"
     depends_on:
       - postgres
     volumes:
-      - ./src:/app/src
-      - ./prisma:/app/prisma
-      - ./uploads:/app/uploads
+      - ./backend/src:/app/src
+      - ./backend/prisma:/app/prisma
+      - ./backend/uploads:/app/uploads
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: taskmanagement_frontend
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
 
 volumes:
   postgres_data:
